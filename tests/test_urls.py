@@ -79,6 +79,19 @@ def test_pages_appname():
 def test_blog_url_names(value, name):
     args = (value,)
     try:
+        # Печать ожидаемых значений
+        print(f"Ожидаемое имя маршрута: {name}")
+        print(f"Ожидаемые аргументы: {args}")
+        resolved_url = reverse(name, args=args if value else None)
+        print(f"Фактически разрешённый путь:")
+
+        # Попытка разрешить путь
+
+        # Печать фактически разрешённого пути
+        print(f"Фактически разрешённый путь: {resolved_url}")
+
+    except NoReverseMatch as e:
+        # Ошибка при разрешении пути
         reverse(name, args=args if value else None)
     except NoReverseMatch as e:
         raise AssertionError(

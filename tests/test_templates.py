@@ -20,6 +20,12 @@ from tests.conftest import try_get_url
 def test_page_templates(client, url, template):
     url = f'/{url}' if url else '/'
     response = try_get_url(client, url)
+
+    used_templates = [t.name for t in response.templates]
+    print(f"Ожидаемый шаблон: {template}")
+    print(f"Фактически использованные шаблоны: {used_templates}")
+
+
     assertTemplateUsed(response, template, msg_prefix=(
         f'Убедитесь, что для отображения страницы `{url}` используется '
         f'шаблон `{template}`.'
@@ -54,7 +60,16 @@ def test_post_list(client, posts):
     reversed_post_list_pattern = re.compile(
         r'[\s\S]+?'.join(reversed_trunketed_post_texts)
     )
+
+    # Печатаем ожидаемые значения
+    print("Ожидаемые тексты постов в обратном порядке (первые 20 символов):")
+    for text in reversed_trunketed_post_texts:
+        print(text)
+
+
+
     page_content = response.content.decode('utf-8')
+    print(page_content)
     assert re.search(reversed_post_list_pattern, page_content), (
         f'Убедитесь, что на странице `{url}` выводится инвертированный список '
         'постов из задания.'
